@@ -15,39 +15,16 @@ pipeline {
       }
     }
     
-  stage('Security Scan') {
+  stage('Build Docker') {
     steps{
-        script{
-          docker.build("devops/static-app")
-        }
-        aquaMicroscanner imageName: 'devops/static-app', notCompliesCmd: 'exit 1', onDisallowed: 'fail', outputFormat: 'html'
+        sh 'docker build -t webserver-image:v1 .'
      }
    }
 
-  // stage('Security Scan') {
-  //   steps{
-  //       script{
-  //         docker.build("devops/static-app")
-  //       }
-  //       aquaMicroscanner imageName: 'devops/static-app', notCompliesCmd: 'exit 1', onDisallowed: 'fail', outputFormat: 'html'
-  //    }
-  //  }
-
-
-    stage('Upload to AWS') {
-      steps {
-        withAWS(region: 'us-east-2', credentials: 'jenkinsforaws') {
-          s3Upload(bucket: 'jenkinsbuckets', includePathPattern: '**/*')
-        }
-      }
-    }
-
-    // stage('Build image') {
-    //     /* This builds the actual image; synonymous to
-    //      * docker build on the command line */
-    // steps{
-
-    // }
-    // }
+  stage('Run Docker') {
+    steps{
+        sh 'docker run -d -p 80:80 webserver-image:v1'
+     }
+   }
   }
 }
