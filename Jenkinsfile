@@ -23,7 +23,6 @@ pipeline {
 
  stage('Push Docker Image') {
     steps{
-        sh 'docker login' 
         sh 'docker image tag static loreye/static'
         sh 'docker image push loreye/static'
      }
