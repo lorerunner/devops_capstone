@@ -23,7 +23,7 @@ pipeline {
 
   stage('Run Docker') {
     steps{
-        sh 'docker run -d -p 80:80 webserver-image:v1'
+        sh 'docker run -d -p 3000:80 webserver-image:v1'
      }
    }
   }
