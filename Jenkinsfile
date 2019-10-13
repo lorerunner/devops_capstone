@@ -39,6 +39,12 @@ pipeline {
         }
       }
     }
+  
+  stage('Deployment') {
+    steps{
+        sh 'sudo kubectl apply -f deployment.yaml'
+     }
+   }
 
   stage('Run Docker') {
     steps{
