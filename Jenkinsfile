@@ -1,4 +1,11 @@
 pipeline {
+  environment {
+    registry = "loreye/static"
+    registryCredential = 'dockerhub'
+    dockerImage = ''
+  }
+
+
   agent any
   stages {
 
@@ -16,24 +23,35 @@ pipeline {
     }
     
   stage('Build Docker') {
-    steps{
-        sh 'docker build --tag=static .'
-     }
+      steps{
+        script {
+          dockerImage = docker.build registry + ":v1"
+        }
+      }
    }
 
- stage('Push Docker Image') {
-    steps{
-        sh 'docker image tag static loreye/static'
-        sh 'docker image push loreye/static'
-     }
- }
+  stage('Deploy Image') {
+      steps{
+        script {
+          docker.withRegistry( '', registryCredential ) {
+            dockerImage.push()
+          }
+        }
+      }
+    }
 
+//  stage('Push Docker Image') {
+//     steps{
+//         sh 'docker login -u loreye -p '
+//         sh 'docker image tag static loreye/static'
+//         sh 'docker image push loreye/static'
+//      }
+//  }
 
-
-  stage('Run Docker') {
-    steps{
-        sh 'docker run -d -p 3000:80 static'
-     }
-   }
-  }
+  // stage('Run Docker') {
+  //   steps{
+  //       sh 'docker run -d -p 3000:80 static'
+  //    }
+  //  }
+  // }
 }
