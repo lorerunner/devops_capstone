@@ -53,5 +53,5 @@ pipeline {
   //       sh 'docker run -d -p 3000:80 static'
   //    }
   //  }
-  // }
+  }
 }
