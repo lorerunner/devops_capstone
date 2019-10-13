@@ -42,7 +42,7 @@ pipeline {
 
   stage('Run Docker') {
     steps{
-        sh 'docker run -d -p 3000:80 ${dockerImage}'
+        sh 'docker run -d -p 3000:80 loreye/static:v1'
      }
    }
   }
