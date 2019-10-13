@@ -40,18 +40,10 @@ pipeline {
       }
     }
 
-//  stage('Push Docker Image') {
-//     steps{
-//         sh 'docker login -u loreye -p '
-//         sh 'docker image tag static loreye/static'
-//         sh 'docker image push loreye/static'
-//      }
-//  }
-
-  // stage('Run Docker') {
-  //   steps{
-  //       sh 'docker run -d -p 3000:80 static'
-  //    }
-  //  }
+  stage('Run Docker') {
+    steps{
+        sh 'docker run -d -p 3000:80 ${dockerImage}'
+     }
+   }
   }
 }
