@@ -42,8 +42,9 @@ pipeline {
   
   stage('Deployment') {
     steps{
-        sh 'kubectl apply -f /var/lib/jenkins/workspace/devops_capstone_master/deployment.yaml'
-        // sh 'pwd'
+        // sh 'kubectl apply -f /var/lib/jenkins/workspace/devops_capstone_master/deployment.yaml'
+        sh 'pwd'
+        sh 'ls'
      }
    }
 
